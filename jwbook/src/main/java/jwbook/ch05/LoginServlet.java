@@ -33,5 +33,7 @@ public class LoginServlet extends HttpServlet {
 	    session.setAttribute("user", user);
 	    //로그 출력
 	    System.out.println("세션정보:"+session.getAttribute("user"));
+	    //메인페이지로 이동
+	    response.sendRedirect("main");
 	}
 }
