@@ -10,7 +10,6 @@ public class Post {
  private String writer;
  private String email;
  
- //생성자
 public Post(int id, String title, String content, LocalDateTime created, String writer, String email) {
 	this.id = id;
 	this.title = title;
@@ -18,6 +17,12 @@ public Post(int id, String title, String content, LocalDateTime created, String 
 	this.created = created;
 	this.writer = writer;
 	this.email = email;
+}
+
+@Override
+public String toString() {
+	return "Post [id=" + id + ", title=" + title + ", content=" + content + ", created=" + created + ", writer="
+			+ writer + ", email=" + email + "]";
 }
 
 public int getId() {
@@ -67,12 +72,6 @@ public String getEmail() {
 public void setEmail(String email) {
 	this.email = email;
 }
-
-@Override
-public String toString() {
-	return "Post [id=" + id + ", title=" + title + ", content=" + content + ", created=" + created + ", writer="
-			+ writer + ", email=" + email + "]";
-}
-
+ 
 
 }
