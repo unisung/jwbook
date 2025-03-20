@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,5 +35,10 @@ public class PostDetailServlet extends HttpServlet {
 		
 		//해당 id번호의 Post객체를 detail.jsp로 넘김
 	    //과제 - 선착순 3명 - challenge
+		request.setAttribute("post", post);
+		RequestDispatcher dispatcher = 
+				request.getRequestDispatcher("detail.jsp");
+		dispatcher.forward(request, response);
+		
 	}
 }
