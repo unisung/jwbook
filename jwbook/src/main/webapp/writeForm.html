@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+  <h1>글 작성 페이지</h1>
+  <div class="card" style="width: 18rem;">
+     <form method="post" action="write">
+	  <div class="card-body">
+	    <h5 class="card-title">
+	    <lable>제목</lable><input name="title">
+	    </h5>
+	    <h6 class="card-subtitle mb-2 text-body-secondary">
+	    <label>작성자</label><input name="writer">
+	    </h6>
+	    <p class="card-text"><label>내용</label><textarea rows="5" cols="20" name="content"></textarea> </p>
+	    <h6 class="card-subtitle mb-2 text-body-secondary">
+	    <label>email</label><input name="email">
+	    </h6>
+	    <input type="submit" value="작성"><br>
+	    <a href="mlist" class="card-link">글목록</a>
+	  </div>
+	 </form>
+</div>
+</body>
+</html>

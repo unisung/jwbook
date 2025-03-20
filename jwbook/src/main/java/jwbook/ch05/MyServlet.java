@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 //http://localhost:8080/jwbook/hello <-> c:/dev.myworkspace/jwbook/src/ch05/MyServlet.java
-@WebServlet("/hello")
+//@WebServlet("/hello")
 public class MyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
