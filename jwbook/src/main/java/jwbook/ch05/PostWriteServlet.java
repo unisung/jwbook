@@ -1,6 +1,10 @@
 package jwbook.ch05;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDateTime;
 
 import javax.servlet.RequestDispatcher;
@@ -10,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jwbook.ch05.dao.DBConnection;
 import jwbook.ch05.model.Post;
 
 
@@ -26,20 +31,32 @@ public class PostWriteServlet extends HttpServlet {
 
 	//writeForm.jsp로 부터 넘어온 파라미터 처리
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-      //파라미터로 넘어온 값 title, witer, content, email을 받아서 post추가하고
+        request.setCharacterEncoding("utf-8");
+		//파라미터로 넘어온 값 title, witer, content, email을 받아서 post추가하고
 		String title = request.getParameter("title");
 		String writer = request.getParameter("writer");
 		String content = request.getParameter("content");
 		String email = request.getParameter("email");
+
+		//DB에서가져와서
+        DBConnection dbConn = DBConnection.getInstance();
+        Connection conn = dbConn.getCon();
+        String sql = "insert into post(title,content,created,writer,email) "
+        		   + " values('"+title+"','"+content+"','"+LocalDateTime.now()+"','"+writer+"','"+email+"')";
+        System.out.println("sql문:"+sql);
+        
+        Statement stmt=null;
+        ResultSet rs=null;
 		
-		Post post = new Post(title, content, LocalDateTime.now(), writer, email);
+        try {
+			stmt = conn.createStatement();
+			stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 				
 		// /mlist로 전달 localhost:8080/jwbook/mlist
-		//response.sendRedirect("mlist");
-		request.setAttribute("list", post.list);
-		
-		RequestDispatcher dispatcher = 
-				request.getRequestDispatcher("mlist.jsp");
-		dispatcher.forward(request, response);
+		response.sendRedirect("mlist");
+
 	}
 }
