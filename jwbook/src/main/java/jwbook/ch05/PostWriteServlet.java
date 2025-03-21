@@ -57,6 +57,5 @@ public class PostWriteServlet extends HttpServlet {
 				
 		// /mlist로 전달 localhost:8080/jwbook/mlist
 		response.sendRedirect("mlist");
-
 	}
 }
