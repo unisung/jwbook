@@ -84,10 +84,8 @@ public class StudentDAO {
 		pstmt.setString(i++,s.getUniv());
 		pstmt.setDate(i++,s.getBirth());
 		pstmt.setString(i++,s.getEmail());
-		
 		//퀄리 실행 후 결과 처리
 		pstmt.executeUpdate();
-        
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -135,6 +133,23 @@ public class StudentDAO {
 			pstmt.setString(i++, s.getEmail());
 			pstmt.setInt(i++, s.getId());
 
+			// 쿼리 실행 후 결과 처리
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void delete(String id) {
+		// DBMS연결 객체 얻기
+		open();
+		// 쿼리문작성 - 입력쿼리 template
+		String sql = "delete from student where id=?";
+		try {
+			// 쿼리전달객체 생성
+			pstmt = conn.prepareStatement(sql);
+			// 바인딩변수(?) 순서대로 값 설정하기
+			pstmt.setInt(1, Integer.parseInt(id));
 			// 쿼리 실행 후 결과 처리
 			pstmt.executeUpdate();
 		} catch (Exception e) {

@@ -44,6 +44,7 @@ public class StudentController extends HttpServlet {
 		  case "insert": view = insert(request,response); break;
 		  case "info": view = info(request,response); break;
 		  case "update": view = update(request,response); break;
+		  case "delete": view = delete(request,response); break;
 		}
 		  if(view.indexOf(':') == -1) {
 		  getServletContext()
@@ -58,6 +59,15 @@ public class StudentController extends HttpServlet {
 		  }
 		}
 	}
+	private String delete(HttpServletRequest request, HttpServletResponse response) {
+		//삭제할 id 받기 
+		String id = request.getParameter("id");
+		//dao에서 삭제 처리
+		 dao.delete(id);
+		 //리스트로 리다이렉트
+		 return "redirect:/studentControl";
+	}
+
 	//정보수정
     private String update(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, String[]> map= request.getParameterMap();
