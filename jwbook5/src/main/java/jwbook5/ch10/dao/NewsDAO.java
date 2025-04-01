@@ -29,7 +29,7 @@ public class NewsDAO {
 		Connection conn = open();
 		List<News> newsList = new ArrayList<>();
 		//쿼리문작성
-		String sql = "select aid, title, parsedatetime(date, 'yyyy-MM-dd hh:mm:ss') as cdate from news";
+		String sql = "select aid, title, substring(date,1,19) as cdate from news";
 		//쿼리전달객체
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		//쿼리실행 후 결과 받기
@@ -38,7 +38,7 @@ public class NewsDAO {
 			News  n = new News();
 			n.setAid(rs.getInt("aid"));
 			n.setTitle(rs.getString("title"));
-			n.setDate(rs.getString("cdata"));
+			n.setDate(rs.getString("cdate"));
 			//개별뉴스 한건씩 list에 저장
 			newsList.add(n);
 		}
@@ -56,5 +56,23 @@ public class NewsDAO {
 			pstmt.setString(3, n.getContent());
 			pstmt.executeUpdate();
 		}
+	}
+
+	public News getNews(int aid) throws SQLException {
+		News news = new News();
+		Connection conn = open();
+		String sql = "select aid, title, img, substring(date,1,19) as cdate, "
+				   + " content from news where aid=?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setInt(1, aid);
+		ResultSet rs = pstmt.executeQuery();
+		while(rs.next()) {
+		   news.setAid(rs.getInt("aid"));
+		   news.setTitle(rs.getString("title"));
+		   news.setImg(rs.getString("img"));
+		   news.setDate(rs.getString("cdate"));
+		   news.setContent(rs.getString("content"));
+		}
+		return news;
 	}
 }

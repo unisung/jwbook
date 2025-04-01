@@ -43,12 +43,13 @@ public class NewsController extends HttpServlet {
 			                  throws ServletException, IOException {
 		//한글문자 깨짐방지
 		request.setCharacterEncoding("utf-8");
+		//전송된 요청 얻기
 		String action = request.getParameter("action");
-		
+		//DB처리객체 생성
 		dao = new NewsDAO();
 		
-		Method m;//메소드정보 객쳇
-		String view = null;
+		Method m;//메소드정보 객체
+		String view = null;//이동할 페이지 저장 변수
 		// https://localhost:8080/jwbook5?action=listNews
 		if(action == null) { action="listNews"; }
 		
@@ -116,6 +117,22 @@ public class NewsController extends HttpServlet {
 		return "redirect:/news.nhn?action=listNews";
 	}
 
+	//뉴스정보 출력
+	public String getNews(HttpServletRequest request) {
+		int aid = Integer.parseInt(request.getParameter("aid"));
+		try {
+			 News news = dao.getNews(aid);
+			 request.setAttribute("news", news);
+			 ctx.log(news.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+			ctx.log("뉴스 조회 과정에서 문제 발생!!");
+			request.setAttribute("error", "뉴스가 정상적으로 조회되지 않았습니다!!");
+			return listNews(request);//오류발생시 다시 리스트로 이동처리
+		}
+		return "ch10/newsView.jsp";//뉴스페이지로 이동
+	}
+	
 
 	//multipart 헤더에서 파일이름 추출
 	private String getFilename(Part part) {
