@@ -129,10 +129,14 @@ public class NewsController extends HttpServlet {
    
    //뉴스정보 출력
    public String getNews(HttpServletRequest request) {
+	   //조회활 News번호 얻기
       int aid = Integer.parseInt(request.getParameter("aid"));
       try {
+    	  //NewsDAO의 getNews(번호) 실행
          News news = dao.getNews(aid);
+         //DB에서 조회한 News 정보를 request에 저장
          request.setAttribute("news", news);
+         //로그로 출력
          ctx.log(news.toString());
       } catch (Exception e) {
         e.printStackTrace();
@@ -141,7 +145,6 @@ public class NewsController extends HttpServlet {
         return listNews(request);  //오류발생시 다시 리스트 페이지로 이동처리
       }
       return "ch10/newsView.jsp";  //뉴스페이지로 이동
-   
    }
    
    public String deleteNews(HttpServletRequest request) {
@@ -161,11 +164,70 @@ public class NewsController extends HttpServlet {
       //리스트 페이지로 이동처리
       return listNews(request);
    }
-      
-    
       //리다이렉트로 list페이지로 이동처리
       return "redirect:/news.nhn?action=listNews";
    }
+   
+   public String updateform(HttpServletRequest request) {
+		// 조회활 News번호 얻기
+		int aid = Integer.parseInt(request.getParameter("aid"));
+		try {
+			// NewsDAO의 getNews(번호) 실행
+			News news = dao.getNews(aid);
+			// DB에서 조회한 News 정보를 request에 저장
+			request.setAttribute("news", news);
+			// 로그로 출력
+			ctx.log(news.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+			ctx.log("뉴스 조회 과정에서 문제 발생!!!");
+			request.setAttribute("error", "뉴스가 정상적으로 조회되지 않았습니다.");
+			return listNews(request); // 오류발생시 다시 리스트 페이지로 이동처리
+		}
+		return "ch10/newsForm.jsp"; // 뉴스페이지로 이동
+	}
+   
+   public String updateNews(HttpServletRequest request) {
+	   News n = new News();
+	   try {
+		   //이미지 파일 저장
+		   Part part = request.getPart("file");
+		   //이미지 파일 이름 얻기
+		   String fileName = getFilename(part);
+		   
+		   System.out.println("파일전송여부:"+((fileName !=null && !fileName.isEmpty())?"파일전송됨"+fileName: "파일전송안됨"));
+		   
+		   //파일업로드 처리시 진행
+		   if(fileName !=null && !fileName.isEmpty()) part.write(fileName);
+		   
+		   //<input>태그에 입력된 값 News객체 매핑
+		   BeanUtils.populate(n, request.getParameterMap());//페이로드된 값들을 News속성에 설정
+		   //이미지 파일 이름을 News객체 저장
+		   n.setImg("/img/"+fileName);
+		   //BD에 update처리
+		   if(fileName !=null && !fileName.isEmpty()) 
+		   {
+			   n.setImg("/img/"+fileName);
+		   }else {
+			   n.setImg(null); 
+		   }
+		   //DB처리
+		   dao.updateNews(n);
+		   
+	} catch (Exception e) {
+		e.printStackTrace();
+		ctx.log("뉴스 수정 과정에서 문제 발생!");
+		request.setAttribute("error", "뉴스가 정상적으로 수정되지 않았습니다.");
+		return listNews(request); //오류시 목록 페이지로 이동 처리
+	}
+	   //News객체에서 aid추출하여 변수에 저장
+		   int aid = n.getAid();
+	   //수정 완료 후 상세 페이지로 이동 처리
+	   return "redirect:/news.nhn?action=getNews&aid="+aid;
+   }
+   
+	
+	
    
     //multipart 헤더에서 파일이름 추출
     private String getFilename(Part part) {

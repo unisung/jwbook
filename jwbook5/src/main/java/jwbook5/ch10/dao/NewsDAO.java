@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,5 +88,43 @@ public class NewsDAO {
 		pstmt.setInt(1, aid);
 		//4. 삭제 쿼리 실행 및 결과 처리
 		pstmt.executeUpdate();
+	}
+
+	public void updateNews(News n) throws SQLException {
+		// 1. DBMS와 연결 맺기
+		Connection conn = open();
+		// 2. 삭제 쿼리문 작성
+		String sql;
+		//PreparedStatement pstmt;
+		Statement stmt;
+		//문장내 인용부호('')가 있으면  이중인용부로호 변경("")
+		n.setContent(n.getContent().replace("\'","\"" ));
+		
+		if (n.getImg() == null) {
+			//sql = "update news set title=?, content=? where aid=?";
+			sql = "update news set title='"+n.getTitle()+"',content='"+n.getContent()
+			    +"' where aid="+n.getAid();
+		} else {
+			//sql = "update news set title=?, content=?, img=? where aid=?";
+			sql = "update news set title='"+n.getTitle()+"',content='"+n.getContent()
+			    +"', img='"+n.getImg()+"' where aid="+n.getAid();
+		}
+		System.out.println("쿼리:"+sql);
+		// 3. 쿼리문 전달 객체 생성
+		stmt = conn.createStatement();
+//		pstmt = conn.prepareStatement(sql);
+//		if (n.getImg() == null) {
+//			pstmt.setString(1, n.getTitle());
+//			pstmt.setString(2, n.getContent());
+//			pstmt.setInt(3, n.getAid());
+//		} else {
+//			pstmt.setString(1, n.getTitle());
+//			pstmt.setString(2, n.getContent());
+//			pstmt.setString(3, n.getImg());
+//			pstmt.setInt(4, n.getAid());
+//		}
+		// 4. 삭제 쿼리 실행 및 결과 처리
+		stmt.execute(sql);
+//		pstmt.executeUpdate();
 	}
 }

@@ -4,25 +4,33 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>뉴스 관리 앱</title>
+    <title>뉴스 수정 페이지</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   </head>
   <body>
     <div class="container w-75 mt-5 mx-auto">
-     <h2>${news.title}</h2>
+
+    <form action="/jwbook5/news.nhn?action=updateNews" 
+           method="post" 
+           enctype="multipart/form-data">
+      <input type="hidden" name="aid" value="${news.aid}">
+     <input name="title" value='${news.title}' style="width:100%"  class="h2">
       <hr>
       <div class="card w-75 mx-auto">
 	  <img src="${news.img}" class="card-img-top" alt="...">
+	  <input type="file" name="file" class="form-control">
 	  <div class="card-body">
 	    <h5 class="card-title">Date: ${news.date}</h5>
-	    <p class="card-text">Content: ${news.content}</p>
+	    <p class="card-text">Content: 
+	    <textarea rows="5" cols="50" name="content" class="form-control">${news.content}</textarea>
+	    </p>
 	  </div><!-- card-body -->
       </div><!-- card -->
+      <button type="submit" class="btn btn-warning">수정</button>
+   </form><!-- form -->
     </div><!-- container -->
     <hr>
     <a href="javascript:history.back()" class="btn btn-primary"><< Back</a>
-    <a href="news.nhn?action=updateform&aid=${news.aid}" class="btn btn-success">수정 >></a>
-    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
