@@ -146,7 +146,7 @@ public class NewsController extends HttpServlet {
       }
       return "ch10/newsView.jsp";  //뉴스페이지로 이동
    }
-   
+   //뉴스 삭제
    public String deleteNews(HttpServletRequest request) {
      //파라미터로 넘어온 삭제할 뉴스번호 얻기
       int aid = Integer.parseInt(request.getParameter("aid"));
@@ -167,7 +167,7 @@ public class NewsController extends HttpServlet {
       //리다이렉트로 list페이지로 이동처리
       return "redirect:/news.nhn?action=listNews";
    }
-   
+   //뉴스 수정form 이동
    public String updateform(HttpServletRequest request) {
 		// 조회활 News번호 얻기
 		int aid = Integer.parseInt(request.getParameter("aid"));
@@ -186,7 +186,7 @@ public class NewsController extends HttpServlet {
 		}
 		return "ch10/newsForm.jsp"; // 뉴스페이지로 이동
 	}
-   
+   //뉴스 수정 처리
    public String updateNews(HttpServletRequest request) {
 	   News n = new News();
 	   try {
