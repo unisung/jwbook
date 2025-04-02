@@ -32,6 +32,7 @@ public class NewsController extends HttpServlet {
 
 	//웹 리소스 기본 경로 지정
 	private final String START_PAGE = "ch10/newsList.jsp";
+	//초기화
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);//설정 초기화
 		dao = new NewsDAO();// DAO객체 생성 (DI-dependency Injection 의존성 주입)
