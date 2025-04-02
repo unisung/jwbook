@@ -134,6 +134,27 @@ public class NewsController extends HttpServlet {
 		return "ch10/newsView.jsp";//뉴스페이지로 이동
 	}
 	
+	
+	public String deleteNews(HttpServletRequest request) {
+		//파라미터로 넘어온 삭제할 뉴스번호 얻기
+		int aid = Integer.parseInt(request.getParameter("aid"));
+		
+	 try {	
+		//NewsDAO의 deleteNews()메소드 호출하여 DB에서 삭제 처리
+		dao.deleteNews(aid);
+	 }catch(Exception e) {
+		 //오류메시지를 콘솔에 출력
+		 e.printStackTrace();
+		 //로그 출력
+		 ctx.log("뉴스 삭제 과정에서 문제 발생!!");
+		 //리스트페이지에서 출력할 error 메세지 request에 저장.
+		 request.setAttribute("error", "뉴스가 정상적으로 삭제되지 않았습니다");
+		 //리스트 페이지로 이동처리
+		 return listNews(request);//오류시 목록 페이지로 이동 처리
+	 }
+		//리다이렉트로 list페이지로 이동 처리.
+		return "redirect:/news.nhn?action=listNews";
+	}
 
 	//multipart 헤더에서 파일이름 추출
 	private String getFilename(Part part) {

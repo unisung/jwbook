@@ -75,4 +75,17 @@ public class NewsDAO {
 		}
 		return news;
 	}
+
+	//News 삭제
+	public void deleteNews(int aid) throws SQLException {
+		//1. DBMS와 연결 맺기
+		Connection conn = open();
+		//2. 삭제 쿼리문 작성
+		String sql = "delete from news where aid=?";
+		//3. 쿼리문 전달 객체 생성
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setInt(1, aid);
+		//4. 삭제 쿼리 실행 및 결과 처리
+		pstmt.executeUpdate();
+	}
 }

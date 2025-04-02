@@ -19,6 +19,9 @@
 	  </div><!-- card-body -->
       </div><!-- card -->
     </div><!-- container -->
+    <hr>
+    <a href="javascript:history.back()" class="btn btn-primary"><< Back</a>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
