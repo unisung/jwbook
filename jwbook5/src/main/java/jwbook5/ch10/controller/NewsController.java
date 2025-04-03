@@ -47,7 +47,7 @@ public class NewsController extends HttpServlet {
       throws ServletException, IOException {
       
       //한글문자 깨짐방지
-      request.setCharacterEncoding("utf-8");
+      //request.setCharacterEncoding("utf-8");
       String action = request.getParameter("action");
       
       dao = new NewsDAO();
