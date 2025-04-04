@@ -2,11 +2,12 @@ package ch12;
 
 import java.util.List;
 
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;//ws.rs패키지
 import javax.ws.rs.Produces;
@@ -79,7 +80,18 @@ public class NewsApiService {
 		return "News API: 뉴스 삭제됨!! - "+aid;
 	}
 	
-	
-	
-	
+	// 뉴스 수정
+	@PATCH // POST localhost:8080/jwbook7/api/news
+	@Consumes(MediaType.APPLICATION_JSON) // 클라이언트로 부터 넘어온 데이타가 JSON타입
+	public String updateNews(News news) {
+		try {
+			// NewsDAO의 updateNews() 메소드 호출하여 DB에 저장
+			dao.updateNews(news);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "News API: 뉴스 수정 실패!!";
+		}
+		return "News API: 뉴스 수정 성공!!";
+	}
+
 }
