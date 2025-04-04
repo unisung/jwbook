@@ -4,6 +4,7 @@ import java.util.List;
 
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -63,4 +64,22 @@ public class NewsApiService {
 		}
 		return news;
 	}
+	
+	//뉴스 정보 삭제
+	@DELETE
+	@Path("{aid}")
+	public String delNews(@PathParam("aid") int aid) {
+		try {
+			// NewsDAO의 deleteNews()메소드 실행
+			 dao.deleteNews(aid);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "News API: 뉴스 삭제 실패!! - "+aid;
+		}
+		return "News API: 뉴스 삭제됨!! - "+aid;
+	}
+	
+	
+	
+	
 }
