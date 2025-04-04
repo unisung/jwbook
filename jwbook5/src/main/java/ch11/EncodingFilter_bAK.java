@@ -12,25 +12,26 @@ import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 
 
-@WebFilter("*.nhn")
-public class EncodingFilter extends HttpFilter implements Filter {
+//@WebFilter("*.nhn")
+public class EncodingFilter_bAK extends HttpFilter implements Filter {
 
-	public void destroy() {
-		
-	}
+	public void destroy() {}
 
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, 
+			             FilterChain chain) throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		// place your code here
-		HttpServletRequest httpReq = (HttpServletRequest)request;
+		HttpServletRequest httpReq = (HttpServletRequest) request;
+		
 		if(httpReq.getMethod().equalsIgnoreCase("POST")) {
 			request.setCharacterEncoding("utf-8");
 		}
 		// pass the request along the filter chain
 		chain.doFilter(request, response);
+		
 	}
 
-	public void init(FilterConfig fConfig) throws ServletException {
-	}
+
+	public void init(FilterConfig fConfig) throws ServletException {}
 
 }
