@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.model.MyDTO;
+
 import jakarta.websocket.server.PathParam;
 
 @Controller
@@ -32,6 +34,17 @@ public class TestWeb { //POJO
 		return "hello";
 	}
 	
+	
+	@GetMapping("/hello33/{id}/{name}/{password}/{age}")
+	@ResponseBody
+	public String hello33(@PathVariable  String id, 
+			@PathVariable  String name, 
+			@PathVariable  String password, 
+			@PathVariable  String age) {
+		
+		return "id:"+id+",name:"+name+",age:"+age;
+	}
+	
 	@GetMapping("/hello4") // /test/hello4?id=hong&name=홍길동&password=1234&age=18
 	@ResponseBody
 	public String hello4(@RequestParam(value="id",  required = true) String id,
@@ -40,6 +53,12 @@ public class TestWeb { //POJO
 						 @RequestParam(value="age", required = false) String age
 						) {
 		return "id:"+id+", name:"+name+",age:"+age;
+	}
+	
+	@GetMapping("/hello5") // /test/hello4?id=hong&name=홍길동&password=1234&age=18
+	@ResponseBody
+	public MyDTO hello5(MyDTO dto) {
+		return dto;
 	}
 	
 	
