@@ -73,9 +73,19 @@ public class NewsDAO {
 		return n;
 	}
 
-	public void addNews(News news) {
-		// TODO Auto-generated method stub
+	//추가
+	public void addNews(News news) throws Exception{
+		Connection conn=open();
+		//쿼리문 작성
+		String sql = "insert into news(title, img, date, content) values(?,?,current_timestamp(),?)";
+		//쿼리 전달객쳇
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, news.getTitle()); // ?에 값 세팅
+		pstmt.setString(2, news.getImg()); // ?에 값 세팅
+		pstmt.setString(3, news.getContent()); // ?에 값 세팅
 		
+		//쿼리실행 후 결과 받기
+		 pstmt.executeUpdate();
 	}
 	
 	
