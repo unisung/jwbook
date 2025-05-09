@@ -23,7 +23,33 @@
      </c:forEach>
     </ul> 
     <hr>
-    
+    <!-- 오류부분 -->
+    <c:if test="${error !=null}">
+    <div>
+      에러 발생:${error}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    </c:if>
+    <!-- 뉴스 등록 -->
+    <button class="btn btn-outline-info mb-3" type="button" data-bs-toggle="collapse"
+    data-bs-target="#addForm" aria-expanded="false" aria-controls="addForm">뉴스등록
+    </button>
+    <div class="collapse" id="addForm">
+      <div class="card" style="width: 18rem;">
+		  <div class="card-body">
+		     <form method="post" action="/news/add" enctype="multipart/form-data">
+		      	<label class="form-label">제목</label>
+		      	<input name="tile" class="form-control">
+		      	<label class="form-label">이미지</label>
+		      	<input name="file" type="file" class="form-control">
+		      	<label class="form-label">기사내용</label>
+		      	<textarea rows="5" cols="50" name="content" class="formn-control"></textarea>
+		        <button type="submit" class="btn btn-success mt-3">저장</button>
+		     </form>
+		  </div><!-- card-body -->
+      </div><!-- card -->
+    </div>
+    <!-- /뉴스 등록 -->
     </div><!-- container -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
   </body>
