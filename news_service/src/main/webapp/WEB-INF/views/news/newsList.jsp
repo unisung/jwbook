@@ -35,8 +35,8 @@
     data-bs-target="#addForm" aria-expanded="false" aria-controls="addForm">뉴스등록
     </button>
     <div class="collapse" id="addForm">
-      <div class="card" style="width: 18rem;">
-		  <div class="card-body">
+      <div class="card text-bg-warning" style="width: 36rem;">
+		  <div class="card-body ">
 		     <form method="post" action="/news/add" enctype="multipart/form-data">
 		      	<label class="form-label">제목</label>
 		      	<input name="title" class="form-control">
