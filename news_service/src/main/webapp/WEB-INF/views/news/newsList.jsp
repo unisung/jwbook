@@ -43,7 +43,7 @@
 		      	<label class="form-label">이미지</label>
 		      	<input name="file" type="file" class="form-control">
 		      	<label class="form-label">기사내용</label>
-		      	<textarea rows="5" cols="50" name="content" class="formn-control"></textarea>
+		      	<textarea rows="5" cols="50" name="content" class="form-control"></textarea>
 		        <button type="submit" class="btn btn-success mt-3">저장</button>
 		     </form>
 		  </div><!-- card-body -->

@@ -67,9 +67,12 @@ public class NewsWebController {
 	public String addNews(@ModelAttribute News news, Model m, 
 			              @RequestParam("file") MultipartFile file) {
 		try {
+			 logger.info("fdir:"+fdir);
 			 //저장 파일 객체 생성
-			 File dest = new File(fdir + "/ " + file.getOriginalFilename());
+			 File dest = new File(fdir + "/" + file.getOriginalFilename());
 			 
+			 logger.info("경로:"+dest.getAbsolutePath()+", 경로:"
+			                 +dest.getPath()+",파일명:"+dest.getName()); 
 			 //파일저장
 			 file.transferTo(dest);
 			 
