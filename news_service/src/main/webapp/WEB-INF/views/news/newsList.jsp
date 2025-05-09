@@ -39,7 +39,7 @@
 		  <div class="card-body">
 		     <form method="post" action="/news/add" enctype="multipart/form-data">
 		      	<label class="form-label">제목</label>
-		      	<input name="tile" class="form-control">
+		      	<input name="title" class="form-control">
 		      	<label class="form-label">이미지</label>
 		      	<input name="file" type="file" class="form-control">
 		      	<label class="form-label">기사내용</label>

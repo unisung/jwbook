@@ -1,5 +1,6 @@
 package com.example.news.controller;
 
+import java.io.File;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -9,9 +10,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.news.dao.NewsDAO;
 import com.example.news.model.News;
@@ -60,7 +64,27 @@ public class NewsWebController {
 	}
 	
 	@PostMapping("/add") /* http://localhost:8080/news/add */
-	
+	public String addNews(@ModelAttribute News news, Model m, 
+			              @RequestParam("file") MultipartFile file) {
+		try {
+			 //저장 파일 객체 생성
+			 File dest = new File(fdir + "/ " + file.getOriginalFilename());
+			 
+			 //파일저장
+			 file.transferTo(dest);
+			 
+			 //db에 저장
+			 news.setImg("/img/"+dest.getName());
+			 dao.addNews(news);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.warn("뉴스 추가 과정에서 문제 발생!");
+			m.addAttribute("error","뉴스가 정상적으로 등록되지 않았습니다.");
+		}
+		
+		return "redirect:/news/list"; /* http://localhost:8080/news/list  */
+		
+	}
 	
 	
 	

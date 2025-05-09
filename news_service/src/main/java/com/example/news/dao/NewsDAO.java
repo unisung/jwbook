@@ -72,6 +72,11 @@ public class NewsDAO {
 		}
 		return n;
 	}
+
+	public void addNews(News news) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 
