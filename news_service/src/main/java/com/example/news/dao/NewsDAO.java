@@ -50,6 +50,28 @@ public class NewsDAO {
 		
 		return newsList;
 	}
+
+	//뉴스 가져오기
+	public News getNews(int aid) throws Exception{
+		Connection conn=open();
+		News n = new News();
+		//쿼리문 작성
+		String sql = "select aid, title, substring(date,1,19) as cdate, img, content from news where aid=?";
+		//쿼리 전달객쳇
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setInt(1, aid); // ?에 값 세팅
+		//쿼리실행 후 결과 받기
+		ResultSet rs = pstmt.executeQuery();
+		
+		if(rs.next()) {
+			n.setAid(rs.getInt("aid"));
+			n.setTitle(rs.getString("title"));
+			n.setDate(rs.getString("cdate"));
+			n.setImg(rs.getString("img")); // 이미지 파일 항목
+			n.setContent(rs.getString("content"));
+		}
+		return n;
+	}
 	
 	
 
