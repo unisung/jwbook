@@ -12,12 +12,12 @@
     <div class="container w-75 mt-5 mx-auto">
     <h2>뉴스 목록</h2>
     <hr>
-    <ul>
+    <ul class="list-group">
      <c:forEach var="news" items="${newsList}" varStatus="status">
-      <li>
-       <a href="getNews?aid=${news.aid}">[${status.count}]${news.title}, ${news.date}</a>
-       <a href="deleteNews?aid=${news.aid}">
-         <span class="badge-secondary">&times;</span>
+      <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center ">
+       <a href="/news/${news.aid}" class="text-decoration-none">[${status.count}]${news.title}, ${news.date}</a>
+       <a href="/news/delete/${news.aid}">
+         <span class="badge bg-secondary">&times;</span>
        </a>
      </li>
      </c:forEach>
