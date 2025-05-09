@@ -89,7 +89,26 @@ public class NewsWebController {
 		
 	}
 	
+	@GetMapping("/update/{aid}")
+	public String update(@PathVariable int aid, Model m) {
+		News news;
+		try {
+			news = dao.getNews(aid);
+			m.addAttribute("news", news);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.warn("뉴스 조회 과정에서 문제 발생!");
+			m.addAttribute("error","뉴스가 정상적으로 조회되지 않았습니다.");
+		}
+		return "news/newsForm";
+	}
 	
+	@PostMapping("/update")
+	public String update(@ModelAttribute News news, Model m, 
+                     @RequestParam(value = "file", required = false) MultipartFile file) {
+		//수정부분 처리 file 전송여부에 따른 수정
+		return "redirect:/news/"+news.getAid();
+	}
 	
 
 }
