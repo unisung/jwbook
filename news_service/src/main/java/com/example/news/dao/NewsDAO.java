@@ -2,8 +2,14 @@ package com.example.news.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
+
+import com.example.news.model.News;
 
 @Component
 public class NewsDAO {
@@ -22,6 +28,27 @@ public class NewsDAO {
 			e.printStackTrace();
 		}
 		return conn;
+	}
+
+	public List<News> getAll() throws Exception{
+		Connection conn=open();
+		List<News> newsList = new ArrayList<News>();
+		//쿼리문 작성
+		String sql = "select aid, title, substring(date,1,19) as cdate from news";
+		//쿼리 전달객쳇
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		//쿼리실행 후 결과 받기
+		ResultSet rs = pstmt.executeQuery();
+		while(rs.next()) {
+			News n = new News();
+			n.setAid(rs.getInt("aid"));
+			n.setTitle(rs.getString("title"));
+			n.setDate(rs.getString("cdate"));
+			//개별뉴스 한 건씩 list에 저장
+			newsList.add(n);
+		}
+		
+		return newsList;
 	}
 	
 	
