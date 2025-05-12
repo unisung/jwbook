@@ -16,9 +16,13 @@
      <c:forEach var="news" items="${newsList}" varStatus="status">
       <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center ">
        <a href="/news/${news.aid}" class="text-decoration-none">[${status.count}]${news.title}, ${news.date}</a>
-       <a href="/news/delete/${news.aid}">
-         <span class="badge bg-secondary">&times;</span>
-       </a>
+       <%-- <a href="javascript:deleteConfirm(${news.aid})"> --%>
+		 <!-- Button trigger modal -->
+		<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal"
+		 data-aid="${news.aid}">
+		         <span class="badge bg-secondary">&times;</span>
+		</button>
+       <!-- </a> -->
      </li>
      </c:forEach>
     </ul> 
@@ -52,5 +56,39 @@
     <!-- /뉴스 등록 -->
     </div><!-- container -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">해당뉴스 기사 삭제여부 확인</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        정말 삭제 하시겠습니까?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+        <button type="button" class="btn btn-primary" id="deleteBtn">삭제</button>
+      </div>
+    </div>
+  </div>
+</div> <!-- Modal -->
+
+<script>
+ const exampleModal  = document.getElementById('exampleModal');
+ exampleModal.addEventListener('show.bs.modal', function(event){
+	 const button = event.relatedTarget;
+	 const aid = button.getAttribute('data-aid');
+	 console.log('전달된 aid:', aid);
+	 
+const deleteButton = document.getElementById('deleteBtn');
+ deleteButton.setAttribute('data-aid',aid);
+	 
+	 
+ })
+</script>
+
   </body>
 </html>
