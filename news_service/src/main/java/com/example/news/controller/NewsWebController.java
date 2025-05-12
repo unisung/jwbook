@@ -105,8 +105,34 @@ public class NewsWebController {
 	
 	@PostMapping("/update")
 	public String update(@ModelAttribute News news, Model m, 
-                     @RequestParam(value = "file", required = false) MultipartFile file) {
+                         @RequestParam(value = "file", required = false) MultipartFile file) {
 		//수정부분 처리 file 전송여부에 따른 수정
+		logger.info(file.isEmpty()?"파일전송안됨":"파일전송됨");
+		logger.info(news.toString());
+		try {
+			 if(!file.isEmpty()) {//파일이 전송되었을 때
+				 logger.info("fdir:"+fdir);
+				 //저장 파일 객체 생성
+				 File dest = new File(fdir + "/" + file.getOriginalFilename());
+				 
+				 logger.info("경로:"+dest.getAbsolutePath()+", 경로:"
+				                 +dest.getPath()+",파일명:"+dest.getName()); 
+				 //파일저장
+				 file.transferTo(dest);
+				 
+				 //db에 저장
+				 news.setImg("/img/"+dest.getName());
+			 }
+			 
+			 logger.info("----->"+news.toString());
+			 dao.updateNews(news);//DAO로 news객체 넘기고, DAO에서 img null여부에 따라 update
+			 
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.warn("뉴스 추가 과정에서 문제 발생!");
+			m.addAttribute("error","뉴스가 정상적으로 등록되지 않았습니다.");
+		}
+		
 		return "redirect:/news/"+news.getAid();
 	}
 	

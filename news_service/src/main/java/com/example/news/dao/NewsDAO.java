@@ -8,15 +8,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
-
+import com.example.news.controller.TestController;
 import com.example.news.model.News;
+
+import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 
 @Component
 public class NewsDAO {
+
+    private final TestController testController;
 	final String JDBC_DRIVER = "org.h2.Driver";
 	final String JDBC_URL = "jdbc:h2:tcp://localhost/~/jwbookdb";
 	final String JDBC_USER = "jwbook";
 	final String JDBC_PASSWORD = "1234";
+
+    NewsDAO(TestController testController) {
+        this.testController = testController;
+    }
 	
 	//JAVA와 DB 데이타 및 쿼리 관리객체
 	public Connection open() {
@@ -87,7 +95,28 @@ public class NewsDAO {
 		//쿼리실행 후 결과 받기
 		 pstmt.executeUpdate();
 	}
-	
-	
 
+	//수정
+	public void updateNews(News news) throws Exception{
+	 String sql1 ="update news set title=?, content=? where aid=?";
+	 String sql2 ="update news set title=?, content=?, img=? where aid=?";     System.out.println(news.getImg()==null?"이미지 없음":"이미지 있음");
+	 
+     Connection conn=open();
+	 //쿼리객체 생성
+     PreparedStatement pstmt = null; 
+     //이미지 정보 유무에 따른 설정
+     if(news.getImg()==null) {
+    	 pstmt = conn.prepareStatement(sql1);
+    	 pstmt.setString(1, news.getTitle());
+    	 pstmt.setString(2, news.getContent());
+    	 pstmt.setInt(3, news.getAid());
+     }else {
+    	 pstmt = conn.prepareStatement(sql2);
+    	 pstmt.setString(1, news.getTitle());
+    	 pstmt.setString(2, news.getContent());
+    	 pstmt.setString(3, news.getImg());
+    	 pstmt.setInt(4, news.getAid());
+     }
+      pstmt.executeUpdate();     
+	}
 }
