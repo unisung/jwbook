@@ -78,15 +78,19 @@
 
 <script>
  const exampleModal  = document.getElementById('exampleModal');
+ //모달영역이 보여질때 이벤트 처리
  exampleModal.addEventListener('show.bs.modal', function(event){
-	 const button = event.relatedTarget;
-	 const aid = button.getAttribute('data-aid');
+	 const button = event.relatedTarget; // 모달을 보여지게한 버튼
+	 const aid = button.getAttribute('data-aid'); // data-aid값을 얻기
 	 console.log('전달된 aid:', aid);
 	 
 const deleteButton = document.getElementById('deleteBtn');
  deleteButton.setAttribute('data-aid',aid);
-	 
-	 
+   //삭제 버튼 클릭시 '/news/delete/뉴스번호'로 이동처리
+   deleteButton.addEventListener('click',function(){
+	   window.location.href = '/news/delete/' + aid;
+   });
+  
  })
 </script>
 
