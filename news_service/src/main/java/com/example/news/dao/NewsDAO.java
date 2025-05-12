@@ -119,4 +119,17 @@ public class NewsDAO {
      }
       pstmt.executeUpdate();     
 	}
+
+	public void deleteNews(int aid) throws Exception{
+		//DB연결 객체 얻기
+	 Connection conn= open();
+	 //쿼리문 작성
+	 String sql = "delete from news where aid=?";
+	 //쿼리 전달 객체 생성
+	 PreparedStatement pstmt = conn.prepareStatement(sql);
+	 //쿼리 전달 객체에 바인딩 변수 값 설정
+	 pstmt.setInt(1, aid);
+	 //DB 삭제처리
+	 pstmt.executeUpdate();
+	}
 }

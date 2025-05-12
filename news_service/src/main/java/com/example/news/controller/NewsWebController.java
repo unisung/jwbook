@@ -136,5 +136,18 @@ public class NewsWebController {
 		return "redirect:/news/"+news.getAid();
 	}
 	
+	 //삭제
+	@GetMapping("/delete/{aid}")
+	public String deleteNews(@PathVariable int aid, Model m) {
+		try {
+			  dao.deleteNews(aid);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.warn("뉴스 삭제 과정에서 문제 발생!");
+			m.addAttribute("error","뉴스가 정상적으로 삭제되지 않았습니다.");
+		}
+		return "redirect:/news/list";
+	}
+	
 
 }
