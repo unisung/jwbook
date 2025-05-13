@@ -9,7 +9,6 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -39,6 +38,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 		request.setAttribute("username",  loginid);
 		request.setAttribute("error_message",  errormsg);
 		
-		request.getRequestDispatcher("/loginForm?error=true").forward(request,  response);
+		request.getRequestDispatcher("/loginForm?error=true").forward(request, response);
+
 	}
 }

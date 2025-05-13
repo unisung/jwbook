@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
-<!DOCTYPE html>
+<!DOCTYPE html>  
 <html>
 <head>
 <meta charset="UTF-8">
@@ -17,7 +17,7 @@
 	</c:if>
 	
 	ID : <input type="text" name="j_username" value="${username}"> <br />
-	PW : <input type="text" name="j_password"> <br />
+	PW : <input type="password" name="j_password"> <br />
 	<input type="submit" value="LOGIN"> <br />
 </form>
 
