@@ -83,7 +83,7 @@ public class WebSecurityConfig {
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception{
 		auth.jdbcAuthentication()
 		    .dataSource(dataSource)
-		    .usersByUsernameQuery("select name as userName, password, endabled from user_list where name = ?")
+		    .usersByUsernameQuery("select name as userName, password, enabled from user_list where name = ?")
 		    .authoritiesByUsernameQuery("select name as userName, authority from user_list where name = ?")
 		    .passwordEncoder(new BCryptPasswordEncoder());
 	}
