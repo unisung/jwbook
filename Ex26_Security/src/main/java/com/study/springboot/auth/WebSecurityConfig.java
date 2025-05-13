@@ -1,15 +1,13 @@
 package com.study.springboot.auth;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
@@ -20,11 +18,7 @@ public class WebSecurityConfig {
 
 	@Autowired
 	public AuthenticationFailureHandler authenticationFailureHandler;
-//    private final UserDetailsService users;
-//
-//    WebSecurityConfig(UserDetailsService users) {
-//        this.users = users;
-//    }
+
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 		http.csrf((csrf) -> csrf.disable())
@@ -60,26 +54,38 @@ public class WebSecurityConfig {
 		return http.build();
 	}
 	
-	@Bean
-	public UserDetailsService users() {
-		UserDetails user = User.builder()
-				           .username("user")
-				           .password(PasswordEncoder().encode("1234"))
-				           .roles("USER")  //ROLE_USER 에서 ROLE_ 자동으로 붙음.
-				           .build();
-		
-		UserDetails admin = User.builder()
-		           .username("admin")
-		           .password(PasswordEncoder().encode("1234"))
-		           .roles("USER", "ADMIN")  //ROLE_USER, ROLE_ADMIN 에서 ROLE_ 자동으로 붙음.
-		           .build();
-		//메모리에 사용자 정보 담기
-		return new InMemoryUserDetailsManager(user,admin);
-	}
-
-	@Bean
-	public PasswordEncoder PasswordEncoder() {
-		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+//	@Bean
+//	public UserDetailsService users() {
+//		UserDetails user = User.builder()
+//				           .username("user")
+//				           .password(PasswordEncoder().encode("1234"))
+//				           .roles("USER")  //ROLE_USER 에서 ROLE_ 자동으로 붙음.
+//				           .build();
+//		
+//		UserDetails admin = User.builder()
+//		           .username("admin")
+//		           .password(PasswordEncoder().encode("1234"))
+//		           .roles("USER", "ADMIN")  //ROLE_USER, ROLE_ADMIN 에서 ROLE_ 자동으로 붙음.
+//		           .build();
+//		//메모리에 사용자 정보 담기
+//		return new InMemoryUserDetailsManager(user,admin);
+//	}
+//
+//	@Bean
+//	public PasswordEncoder PasswordEncoder() {
+//		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+//	}
+	
+	@Autowired
+	private DataSource dataSource;
+	
+	@Autowired
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception{
+		auth.jdbcAuthentication()
+		    .dataSource(dataSource)
+		    .usersByUsernameQuery("select name as userName, password, endabled from user_list where name = ?")
+		    .authoritiesByUsernameQuery("select name as userName, authority from user_list where name = ?")
+		    .passwordEncoder(new BCryptPasswordEncoder());
 	}
 
 }
