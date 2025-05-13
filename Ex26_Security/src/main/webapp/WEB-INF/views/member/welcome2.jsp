@@ -30,5 +30,9 @@
   USER ID :<sec:authentication property="name"/><br>
   <a href="/logout">Log Out</a><br>
   
+  <hr>
+  <p>사용자 ID: ${username}</p>
+  <p>계정 활성화 여부: ${enabled}</p>
+  
 </body>
 </html>

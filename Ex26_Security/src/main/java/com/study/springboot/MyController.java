@@ -1,6 +1,9 @@
 package com.study.springboot;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -16,7 +19,9 @@ public class MyController {
 		return "guest/welcome1";
 	}
 	@RequestMapping("/member/welcome")
-	public String welcome2() {
+	public String welcome2(@AuthenticationPrincipal User user, Model model) {
+		model.addAttribute("username", user.getUsername());
+		model.addAttribute("enabled", user.isEnabled());
 		return "member/welcome2";
 	}
 	@RequestMapping("/admin/welcome")

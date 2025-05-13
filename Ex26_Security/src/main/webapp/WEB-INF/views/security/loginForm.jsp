@@ -16,8 +16,8 @@
 	</p>
 	</c:if>
 	
-	ID : <input type="text" name="j_username" value="${username}"> <br />
-	PW : <input type="password" name="j_password"> <br />
+	ID : <input type="text" name="id" value="${username}"> <br />
+	PW : <input type="password" name="pw"> <br />
 	<input type="submit" value="LOGIN"> <br />
 </form>
 

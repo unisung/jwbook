@@ -41,8 +41,8 @@ public class WebSecurityConfig {
 				.loginProcessingUrl("/j_spring_security_check")
 				//.failureUrl("/loginError")   // default : /login?error
 				.failureHandler(authenticationFailureHandler) // 핸들러로 변경
-				.usernameParameter("j_username") // default : j_username
-				.passwordParameter("j_password") // default : j_password
+				.usernameParameter("id") // default : j_username
+				.passwordParameter("pw") // default : j_password
 				.permitAll());
 		//로그아웃 설정
 		//http.logout(logout -> logout.permitAll()); //기본 로그아웃 설정 (/logout)
