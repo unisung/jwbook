@@ -1,5 +1,6 @@
 package com.study.springboot.auth;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,12 +11,15 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 import jakarta.servlet.DispatcherType;
 
 @Configuration
 public class WebSecurityConfig {
 
+	@Autowired
+	public AuthenticationFailureHandler authenticationFailureHandler;
 //    private final UserDetailsService users;
 //
 //    WebSecurityConfig(UserDetailsService users) {
@@ -41,7 +45,8 @@ public class WebSecurityConfig {
 		http.formLogin(formLogin -> formLogin
 				.loginPage("/loginForm")           //default : /login
 				.loginProcessingUrl("/j_spring_security_check")
-				.failureUrl("/loginError")   // default : /login?error
+				//.failureUrl("/loginError")   // default : /login?error
+				.failureHandler(authenticationFailureHandler) // 핸들러로 변경
 				.usernameParameter("j_username") // default : j_username
 				.passwordParameter("j_password") // default : j_password
 				.permitAll());
