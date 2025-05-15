@@ -87,5 +87,4 @@ public class WebSecurityConfig {
 		    .authoritiesByUsernameQuery("select name as userName, authority from user_list where name = ?")
 		    .passwordEncoder(new BCryptPasswordEncoder());
 	}
-
 }
