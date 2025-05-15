@@ -36,6 +36,65 @@
 
 </div>
 <script>
+    let stompClient = null;
+    const roomId ="${room.id}";
+    const currentUser = "${userName}"
+    //채팅방으로 이동시 이벤트처리
+    document.addEventListener("DOMContentLoaded",function(){
+    	//소켓과 stomp클라이언트 객체 생성
+    	const socket = new SockJS("/ws");
+    	stompClient = Stomp.over(socket);
+    	//연결
+    	stompClient.connect({}, function(frame){
+    		stompClient.subscribe("/topic/chatroom/" + roomId, function(msg){
+    			const message = JSON.parse(msg.body);
+    			//채팅방의 영역에 메세지 추가
+    			appendMessage(message);
+    		});
+    		
+    		//입장 메시지
+    		stopmClient.send("/app/chat.join/" + roomId, {}, {});
+    	});
+    	
+    	//메시지 전송
+    	document.getElementById("chat-form").addEventListener("submit",function(e){
+    		e.preventDefault(); //기본 동작 막기
+    		const input = document.getElementById("messageInput");
+    		const content = input.value.trim();//input태그의 입력된 value값 얻기
+    		if(content){
+    			//메시지 전송
+    			stompClient.send("/app/chat.send/" + roomId, {}, JSON.stringify({content}));
+    			//메시지 입력칸 클리어
+    			input.value = "";
+    		}
+    	});//메시지 전송 끝.
+    	
+    	//퇴장 처리 -- challenge-2
+    	
+    	//채팅방영역에 메세지 추가
+    	function appendMessage(message){
+    		const messages = document.getElementById("messages");
+    		const bubble = document.createElement("div");
+    		const isMe = message.sender === currentUser; // 메세지 좌우 배치용(색상구분)
+    		//출력 템플릿
+    		bubble.innerText = `[\${message.type}] \${message.sender}: \${message.content}`;
+    		
+    		//기본 스타일
+    		bubble.classList.add("p-2","rounded", "mb-2", "w-auto", "d-inline-block");
+    		
+    		//방항 및 색상 스타일 분기
+    		if(isMe){
+    			bubble.classList.add("align-self-end", "bg-primary", "text-white");
+    		}else{
+    			bubble.classList.add("align-self-start", "bg-warning", "text-dark");
+    		}
+    		
+    		//채팅방영역에 추가
+    		messages.appendChild(bubble);
+    		//스크롤 이동
+    		messages.scrollTop = message.scrollHeight;
+    	}
+    });// 끝.
     
 </script>
 </body>
