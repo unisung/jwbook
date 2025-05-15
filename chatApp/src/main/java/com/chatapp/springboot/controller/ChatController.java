@@ -62,8 +62,9 @@ public class ChatController {
 		joinMessage.setContent("님이 입장하였습니다.");
 		joinMessage.setType("JOIN");
 		joinMessage.setTimestamp(LocalDateTime.now());
-		
-		chatMessageRepository.save(joinMessage);		
+		//메세지 로그 db에 저장
+		chatMessageRepository.save(joinMessage);
+		//전송
 		simpMessagingTemplate.convertAndSend("/topic/chatroom/" + roomId, joinMessage);
 	}
 	
@@ -78,8 +79,9 @@ public class ChatController {
 				                 .timestamp(LocalDateTime.now())
 				                 .content(principal.getName()+"님이 퇴장하였습니다.")
 				                 .build();
-
+			//로그 db에 저장
 			chatMessageRepository.save(leaveMessage);
+			// 메세지 전달
 			simpMessagingTemplate.convertAndSend("/topic/chatroom/" + roomId, leaveMessage);
 		}
 	

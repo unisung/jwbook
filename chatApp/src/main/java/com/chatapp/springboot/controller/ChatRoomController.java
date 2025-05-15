@@ -45,8 +45,9 @@ public class ChatRoomController {
 		ChatRoom room = chatRoomService.getRoom(id);
 		//해당 채팅방이 없으면 채팅방 리스트로 되돌아감.
 		if(room == null) return "redirect:/chatrooms";
-		
-		List<ChatMessage> chatMessages = chatMessageRepository.findByRoomIdOrderByTimestampAsc(id);
+		//기존 메세지 로그 얻기
+		List<ChatMessage> chatMessages 
+		          = chatMessageRepository.findByRoomIdOrderByTimestampAsc(id);
 		
 		//룸정보와, 생성자 정보를 전달
 		model.addAttribute("room", room);
