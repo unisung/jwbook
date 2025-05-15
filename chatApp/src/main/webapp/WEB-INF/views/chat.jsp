@@ -70,6 +70,16 @@
     	});//메시지 전송 끝.
     	
     	//퇴장 처리 -- challenge-2
+    	 // 퇴장 처리
+        document.getElementById("leaveBtn").addEventListener("click", function () {
+            if (stompClient && stompClient.connected) {
+                stompClient.send("/app/chat.leave/" + roomId, {}, {});
+                stompClient.disconnect(function () {
+                    console.log("👋 Disconnected");
+                    location.href = "/chatrooms";
+                });
+            }
+        });
     	
     	//채팅방영역에 메세지 추가
     	function appendMessage(message){
